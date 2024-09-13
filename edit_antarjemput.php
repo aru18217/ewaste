@@ -1,21 +1,18 @@
 <?php
-    session_start();
-    if (!isset($_SESSION["username"])) 
-    {
-      echo "Anda harus login dulu <br><a href='login.php'>Klik disini</a>";
-      exit;
-    }
-    include "koneksi.php";
-    $select = mysqli_query($kon, "SELECT * FROM tb_user WHERE username='$_SESSION[username]'") or die(mysqli_error($kon));
-    $data = mysqli_fetch_assoc($select);
-
-    $id_antar = $_GET['id_antar'];
-    $select2 = mysqli_query($kon, "SELECT * FROM antar_jemput WHERE id_antar='$id_antar'") or die(mysqli_error($kon));
-    $data2 = mysqli_fetch_object($select2);
+session_start();
+if (!isset($_SESSION["username"])) 
+{
+  echo "Anda harus login dulu <br><a href='..\login.php'>Klik disini</a>";
+  exit;
+}
+$username=$_SESSION["username"];
+include "koneksi.php";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<?php
+    $sql = "SELECT * FROM antar_jemput";
+  $query = mysqli_query($kon,$sql);
+  $count = mysqli_num_rows($query);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,6 +42,15 @@
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+<?php
+		$id_antar   		= isset($_GET['id_antar']) ? $_GET['id_antar'] : "";   
+		$nama  				= isset($_GET['nama']) ? $_GET['nama'] : "";
+		$wilayah  			= isset($_GET['wilayah']) ? $_GET['wilayah'] : "";   
+		$alamat  			= isset($_GET['alamat']) ? $_GET['alamat'] : "";
+		$jenis_sampah   	= isset($_GET['jenis_sampah']) ? $_GET['jenis_sampah'] : "";
+    $select = mysqli_query($kon, "SELECT * FROM antar_jemput WHERE id_antar='$id_antar'") or die(mysqli_error($kon));
+    $data = mysqli_fetch_assoc($select);
+?>
 <div class="wrapper">
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <ul class="navbar-nav">
@@ -52,8 +58,8 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="beranda.php" class="nav-link">Beranda</a>
-        <div class="user-panel mt-1 pb-1 mb-1 d-flex">
+        <a href="beranda.php" class="nav-link">Antar_Jemput</a>
+        <div class="user-panel mt-2 pb-2 mb-2 d-flex">
       </li>
     </ul>
     <div class="container-fluid">
@@ -66,13 +72,13 @@
           </li>
           <li class="nav-item float-sm-right">
           <div class="image">
-            <img src="dist/img/a.jpeg" class="img-circle elevation-2" alt="e-waste" width="35">
+            <img src="dist/img/g.png" class="img-circle elevation-2" alt="e-waste" width="35">
           </div>
           </li>
         </ul>  
       </div>
       </div>
-  </div>
+</div>
   
   <aside class="main-sidebar sidebar-dark-success elevation-4">
     <div class="sidebar">
@@ -83,7 +89,11 @@
         <div class="info">
         <a href="#" class="d-block"><?php echo $_SESSION['username']?></a>
           <div class="rating">
-          <p class="text-warning"><i class="nav-icon fas fa-coins fa-fw"></i><?php echo $data['koin']?></p>
+            <i class="nav-icon fas fa-star fa-fw"></i>
+            <i class="nav-icon fas fa-star fa-fw"></i>
+            <i class="nav-icon fas fa-star fa-fw"></i>
+            <i class="nav-icon fas fa-star fa-fw"></i>
+            <i class="nav-icon fas fa-star fa-fw"></i>
           </div>
         </div>
       </div>
@@ -130,7 +140,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="akun.php" class="nav-link">
+            <a href="index.php" class="nav-link">
               <i class="nav-icon fas fa-user fa-fw"></i>
               <p>Akun</p>
             </a>
@@ -138,11 +148,14 @@
         </ul>
       </nav>
     </div>
+
+
     <tr>
       <td>
-      <center><a href="../logout.php" type="button" class="btn btn-rounded btn-danger">Logout</a></center>
+          <center><a href="../logout.php"  class="btn btn-rounded btn-danger">Logout</a></center>
       </td>
     </tr>
+
   </aside>
 
   <div class="content-wrapper">
@@ -150,124 +163,87 @@
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Invoice</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Invoice</li>
-            </ol>
-          </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
 
+    <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-
-            <!-- Main content -->
-            <div class="invoice p-3 mb-3">
-              <!-- title row -->
-              <div class="row">
-                <div class="col-12">
-                  <h4>
-            <p>
-                  <img src="dist/img/g.png" class="img-circle elevation-2" alt="e-waste" width="35"> E-Waste.
-                    <small class="float-right">Date: <?php echo $data2->tgl_transaksi; ?></small>
-                  </h4>
+        <div class="container-fluid">
+          <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+              <!-- general form elements -->
+              <div class="card card-warning">
+                <div class="card-header">
+                  <h3 class="card-title">Antar - Jemput</h3>
                 </div>
-                <!-- /.col -->
+                <!-- /.card-header -->
+                <!-- form start -->
+               
+                <div class='form'>
+                  <form method='post' action='update_ar.php' class='cmxform form-horizontal tasi-form' id='commentForm'>
+                  <div class="card-body">
+                  <div div class="form-group">
+          <label> <h3>PASTIKAN DATA ANDA BENAR!</h3></label>
+        </div>
+                  <div class="form-group row">
+        <div class="col-sm-10">
+        <input type="text" name="id_antar" class="form-control" size="4" value="<?php echo $id_antar;?>" readonly="readonly" hidden>
+        </div>
+      </div>
+        <div div class="form-group">
+          <label for="exampleInputName1">Nama Pengirim</label>
+          <input type="text" name="nama" class="form-control" id="exampleInputNumber1" value="<?php echo $nama; ?>">
+        </div>
+            <div class="col-sm-12">
+                      <div class='form-group'>
+                        <label for='cname' class='control-label col-lg-2'>Wilayah</label>
+                        <divclass='control-label col-lg-2'>
+                          <select class='form-control' name="wilayah">
+                              <option value="los 1-5"   <?php if($wilayah['wilayah'] == 'los 1-5'){ echo 'selected'; } ?>>LOS 1-5</option>                            
+                          </select>          
+                        </divclass=>
+                      </div>
+                  <div class="form-group">
+                      <label for="exampleInputNumber1">Alamat</label>
+                      <input type="text" name="alamat" class="form-control" id="exampleInputNumber1" value="<?php echo $alamat; ?>">
+                  </div>
+                  <div class="col-sm-12">
+                      <div class='form-group'>
+                        <label for='cname' class='control-label col-lg-2'>Jenis Sampah</label>
+                        <divclass='control-label col-lg-2'>
+                          <select class='form-control' name="jenis_sampah">
+                              <option value="buah-buahan"<?php if($jenis_sampah['jenis_sampah'] == 'buah-buahan'){ echo 'selected'; } ?>>Buah-Buahan</option>
+                              <option value="sayuran"<?php if($jenis_sampaha['jenis_sampah'] == 'sayuran'){ echo 'selected'; } ?>>Sayuran</option>                                       
+                          </select>          
+                        </divclass=>
+                      </div>
+                    </div>
+                    
+                    <div class='form-group'>
+                        <label for='cname' class='control-label col-lg-2'>Total Bayar</label>
+                        <divclass='control-label col-lg-2'>
+                          <select class='form-control' name="total_bayar" readonly="readonly">
+                              <option value="tigapuluhribu" selected>RP 30.000,00</option>                                     
+                          </select>          
+                        </divclass=>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">&nbsp;</label>
+                    <div class="col-sm-10">
+                      <input type="submit" name="submit" class="btn btn-success" value="Jemput">
+                      <a href="antarjemput.php" class="btn btn-warning">Batal</a>
+                    </div>
+                  </div>
+                </form>
               </div>
-              <!-- info row -->
-              <div class="row invoice-info">
-                <div class="col-sm-4 invoice-col">
-                  From
-                  <address>
-                    <strong>Admin, E-Waste.</strong><br>
-                    Pasar Induk Gede Bage<br>
-                    Jl. Soekarno Hatta, Bandung.<br>
-                    Phone: (+62) 89671990056<br>
-                    Email: electronicwaste2022@gmail.com
-                  </address>
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4 invoice-col">
-                  To
-                  <address>
-                    <strong><?php echo $data2->nama; ?></strong><br>
-                    <?php echo $data2->alamat; ?><br>
-                    P.Gede Bage Bandung, Jawa Barat<br>
-                  </address>
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4 invoice-col">
-                  <br>
-                  <b>Order ID:</b> <?php echo $data2->id_antar; ?><br>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-
-              <!-- Table row -->
-              <div class="row">
-                <div class="col-12 table-responsive">
-                  <table class="table table-striped">
-                    <thead>
-                    <tr>
-                     <th>NO</th>
-                     <th>Jenis Sampah</th>
-                     <th>Wilayah</th>
-                     <th>Total_Bayar</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td><?php echo $data2->jenis_sampah; ?></td>
-                      <td><?php echo $data2->wilayah; ?></td>
-                      <td><?php echo $data2->total_bayar; ?></td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-              <div class="row">
-                <!-- /.col -->
-                <div class="col-6">
-                  <p class="lead justify-content-around">Terimakasih telah bergabung bersama kami!</p>
-                  <h5 class="justify-content-right">Accounting Pasar</h5>
-                <br><br><br>
-                <h>(Amira)</h>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-              <!-- this row will not appear when printing -->
-              <br>
-              <div class="row no-print">
-                <div class="col-12">
-                  <a href="ipa.php?id_antar=<?php echo $data2->id_antar?>" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-                  <a href="gantiwarnajemput.php?id_antar=<?php echo $data2->id_antar?>" type="button" class="btn btn-success float-right"><i class="far fa-credit-"></i>
-                  Kembali
-                  </a>
-                </div>
-              </div>
-              <br>
-                  </table>                <!-- /.col -->
-              </div>
-            </div>
-            <!-- /.invoice -->
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
+
+
   <footer class="main-footer">
     <strong>Copyright &copy; 2022 <a href="https://adminlte.io">E-waste</a>.</strong>
     All rights reserved.
@@ -275,6 +251,7 @@
       <b>Version</b> 3.2.0
     </div>
   </footer>
+
   <aside class="control-sidebar control-sidebar-dark">
   </aside>
 </div>

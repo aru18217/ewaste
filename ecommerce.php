@@ -1,27 +1,21 @@
 <?php
-    session_start();
-    if (!isset($_SESSION["username"])) 
-    {
-      echo "Anda harus login dulu <br><a href='login.php'>Klik disini</a>";
-      exit;
-    }
-    include "koneksi.php";
-    $select = mysqli_query($kon, "SELECT * FROM tb_user WHERE username='$_SESSION[username]'") or die(mysqli_error($kon));
-    $data = mysqli_fetch_assoc($select);
-
-    $id_antar = $_GET['id_antar'];
-    $select2 = mysqli_query($kon, "SELECT * FROM antar_jemput WHERE id_antar='$id_antar'") or die(mysqli_error($kon));
-    $data2 = mysqli_fetch_object($select2);
+session_start();
+if (!isset($_SESSION["username"])) 
+{
+  echo "Anda harus login dulu <br><a href='..\login.php'>Klik disini</a>";
+  exit;
+}
+$username=$_SESSION["username"];
+include "koneksi.php";
+$select = mysqli_query($kon, "SELECT * FROM tb_user WHERE username='$_SESSION[username]'") or die(mysqli_error($kon));
+$data = mysqli_fetch_assoc($select);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>E-waste | Antar-Jemput</title>
+  <title>E-waste | Home Page</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -66,7 +60,7 @@
           </li>
           <li class="nav-item float-sm-right">
           <div class="image">
-            <img src="dist/img/a.jpeg" class="img-circle elevation-2" alt="e-waste" width="35">
+            <img src="dist/img/g.png" class="img-circle elevation-2" alt="e-waste" width="35">
           </div>
           </li>
         </ul>  
@@ -82,6 +76,7 @@
         </div>
         <div class="info">
         <a href="#" class="d-block"><?php echo $_SESSION['username']?></a>
+          <a href="#" class="d-block"></a>
           <div class="rating">
           <p class="text-warning"><i class="nav-icon fas fa-coins fa-fw"></i><?php echo $data['koin']?></p>
           </div>
@@ -112,13 +107,13 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="antarjemput.php" class="nav-link active">
+            <a href="antarjemput.php" class="nav-link">
               <i class="nav-icon fas fa-truck fa-fw"></i>
               <p>Antar-Jemput</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="ecommerce.php" class="nav-link">
+            <a href="ecommerce.php" class="nav-link active">
               <i class="nav-icon fas fa-recycle fa-fw"></i>
               <p>E-Commerce</p>
             </a>
@@ -138,136 +133,71 @@
         </ul>
       </nav>
     </div>
+
     <tr>
       <td>
-      <center><a href="../logout.php" type="button" class="btn btn-rounded btn-danger">Logout</a></center>
+          <center><a href="../logout.php" type="button" class="btn btn-rounded btn-danger">Logout</a></center>
       </td>
     </tr>
   </aside>
 
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Invoice</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Invoice</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card card-success">
+            <div class="card-header">
+              <h4 class="card-title">Kompos</h4>
+            </div>
 
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
+            <div class="form-inline btn btn-rounded">
+                <div class="input-group" data-widget="sidebar-search">
+                  <input class="form-control form-control-sidebar bg-light" type="search" placeholder="Ketik disini" aria-label="Search">
+                  <div class="input-group-append">
+                    <button class="btn btn-rounded btn-control-sidebar bg-light">
+                      <i class="fas fa-search fa-fw"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
 
-            <!-- Main content -->
-            <div class="invoice p-3 mb-3">
-              <!-- title row -->
-              <div class="row">
-                <div class="col-12">
-                  <h4>
-            <p>
-                  <img src="dist/img/g.png" class="img-circle elevation-2" alt="e-waste" width="35"> E-Waste.
-                    <small class="float-right">Date: <?php echo $data2->tgl_transaksi; ?></small>
-                  </h4>
+            <div class="card-body">
+              <div>
+                <div class="mb-2">
+                  <div class="float-right">
+                  </div>
                 </div>
-                <!-- /.col -->
               </div>
-              <!-- info row -->
-              <div class="row invoice-info">
-                <div class="col-sm-4 invoice-col">
-                  From
-                  <address>
-                    <strong>Admin, E-Waste.</strong><br>
-                    Pasar Induk Gede Bage<br>
-                    Jl. Soekarno Hatta, Bandung.<br>
-                    Phone: (+62) 89671990056<br>
-                    Email: electronicwaste2022@gmail.com
-                  </address>
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4 invoice-col">
-                  To
-                  <address>
-                    <strong><?php echo $data2->nama; ?></strong><br>
-                    <?php echo $data2->alamat; ?><br>
-                    P.Gede Bage Bandung, Jawa Barat<br>
-                  </address>
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4 invoice-col">
-                  <br>
-                  <b>Order ID:</b> <?php echo $data2->id_antar; ?><br>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-
-              <!-- Table row -->
-              <div class="row">
-                <div class="col-12 table-responsive">
-                  <table class="table table-striped">
-                    <thead>
-                    <tr>
-                     <th>NO</th>
-                     <th>Jenis Sampah</th>
-                     <th>Wilayah</th>
-                     <th>Total_Bayar</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td><?php echo $data2->jenis_sampah; ?></td>
-                      <td><?php echo $data2->wilayah; ?></td>
-                      <td><?php echo $data2->total_bayar; ?></td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-              <div class="row">
-                <!-- /.col -->
-                <div class="col-6">
-                  <p class="lead justify-content-around">Terimakasih telah bergabung bersama kami!</p>
-                  <h5 class="justify-content-right">Accounting Pasar</h5>
-                <br><br><br>
-                <h>(Amira)</h>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-              <!-- this row will not appear when printing -->
-              <br>
-              <div class="row no-print">
-                <div class="col-12">
-                  <a href="ipa.php?id_antar=<?php echo $data2->id_antar?>" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-                  <a href="gantiwarnajemput.php?id_antar=<?php echo $data2->id_antar?>" type="button" class="btn btn-success float-right"><i class="far fa-credit-"></i>
-                  Kembali
+              <div>
+                <div class="filter-container p-0 row">
+                  
+                  <?php
+                    $select = mysqli_query($kon, "SELECT * FROM kompos ORDER BY id_kompos ASC LIMIT 8");
+                    if(mysqli_num_rows($select) > 0){
+                      while($data = mysqli_fetch_array($select)){
+                  ?>
+                  <a href="product1.php?id_kompos=<?php echo $data['id_kompos']?>">
+                   <div class="filtr-item col-sm-2" data-category="1" data-sort="white sample">
+                    <img src="../admin/kompos/<?php echo $data['gambar']?>" width="100">
+                    <p class="text-warning"><i class="nav-icon fas fa-coins fa-fw"></i><?php echo $data['harga']?></p>
+                    <p><?php echo $data['nama']?></p>
+                    <a href="product1.php?id_kompos=<?php echo $data['id_kompos']?>" class="btn btn-warning">Beli Sekarang</a>
+                  </div>
                   </a>
+                  <?php }}else{ ?>
+                        <p>kompos tidak ada</p>
+                      <?php } ?>
                 </div>
-              </div>
-              <br>
-                  </table>                <!-- /.col -->
               </div>
             </div>
-            <!-- /.invoice -->
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
   <footer class="main-footer">
     <strong>Copyright &copy; 2022 <a href="https://adminlte.io">E-waste</a>.</strong>
     All rights reserved.
@@ -275,10 +205,10 @@
       <b>Version</b> 3.2.0
     </div>
   </footer>
+
   <aside class="control-sidebar control-sidebar-dark">
   </aside>
 </div>
-<!-- ./wrapper -->
 
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>

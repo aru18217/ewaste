@@ -9,10 +9,11 @@
     $select = mysqli_query($kon, "SELECT * FROM tb_user WHERE username='$_SESSION[username]'") or die(mysqli_error($kon));
     $data = mysqli_fetch_assoc($select);
 
-    $id_antar = $_GET['id_antar'];
-    $select2 = mysqli_query($kon, "SELECT * FROM antar_jemput WHERE id_antar='$id_antar'") or die(mysqli_error($kon));
+    $id_faktur = $_GET['id_faktur'];
+    $select2 = mysqli_query($kon, "SELECT * FROM faktur_kompos WHERE id_faktur='$id_faktur'") or die(mysqli_error($kon));
     $data2 = mysqli_fetch_object($select2);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,7 +67,7 @@
           </li>
           <li class="nav-item float-sm-right">
           <div class="image">
-            <img src="dist/img/a.jpeg" class="img-circle elevation-2" alt="e-waste" width="35">
+            <img src="dist/img/g.png" class="img-circle elevation-2" alt="e-waste" width="35">
           </div>
           </li>
         </ul>  
@@ -112,13 +113,13 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="antarjemput.php" class="nav-link active">
+          <a href="antarjemput.php" class="nav-link">
               <i class="nav-icon fas fa-truck fa-fw"></i>
               <p>Antar-Jemput</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="ecommerce.php" class="nav-link">
+            <a href="ecommerce.php" class="nav-link active ">
               <i class="nav-icon fas fa-recycle fa-fw"></i>
               <p>E-Commerce</p>
             </a>
@@ -144,130 +145,68 @@
       </td>
     </tr>
   </aside>
-
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+<div class="content-wrapper">
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Invoice</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Invoice</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid"></div>
     </section>
 
     <section class="content">
       <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-
-            <!-- Main content -->
-            <div class="invoice p-3 mb-3">
-              <!-- title row -->
-              <div class="row">
-                <div class="col-12">
-                  <h4>
-            <p>
-                  <img src="dist/img/g.png" class="img-circle elevation-2" alt="e-waste" width="35"> E-Waste.
-                    <small class="float-right">Date: <?php echo $data2->tgl_transaksi; ?></small>
-                  </h4>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- info row -->
-              <div class="row invoice-info">
-                <div class="col-sm-4 invoice-col">
-                  From
-                  <address>
-                    <strong>Admin, E-Waste.</strong><br>
-                    Pasar Induk Gede Bage<br>
-                    Jl. Soekarno Hatta, Bandung.<br>
-                    Phone: (+62) 89671990056<br>
-                    Email: electronicwaste2022@gmail.com
-                  </address>
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4 invoice-col">
-                  To
-                  <address>
-                    <strong><?php echo $data2->nama; ?></strong><br>
-                    <?php echo $data2->alamat; ?><br>
-                    P.Gede Bage Bandung, Jawa Barat<br>
-                  </address>
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4 invoice-col">
-                  <br>
-                  <b>Order ID:</b> <?php echo $data2->id_antar; ?><br>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-
-              <!-- Table row -->
-              <div class="row">
-                <div class="col-12 table-responsive">
-                  <table class="table table-striped">
-                    <thead>
-                    <tr>
-                     <th>NO</th>
-                     <th>Jenis Sampah</th>
-                     <th>Wilayah</th>
-                     <th>Total_Bayar</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td><?php echo $data2->jenis_sampah; ?></td>
-                      <td><?php echo $data2->wilayah; ?></td>
-                      <td><?php echo $data2->total_bayar; ?></td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-              <div class="row">
-                <!-- /.col -->
-                <div class="col-6">
-                  <p class="lead justify-content-around">Terimakasih telah bergabung bersama kami!</p>
-                  <h5 class="justify-content-right">Accounting Pasar</h5>
-                <br><br><br>
-                <h>(Amira)</h>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-              <!-- this row will not appear when printing -->
-              <br>
-              <div class="row no-print">
-                <div class="col-12">
-                  <a href="ipa.php?id_antar=<?php echo $data2->id_antar?>" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-                  <a href="gantiwarnajemput.php?id_antar=<?php echo $data2->id_antar?>" type="button" class="btn btn-success float-right"><i class="far fa-credit-"></i>
-                  Kembali
-                  </a>
+      <div class="row">
+          <div class="col-md-12">
+            <div class="timeline">
+              <div>
+                <i class="fas fa-envelope bg-green"></i>
+                <div class="timeline-item">
+                <div class="time">
+                    <?php echo $data2->tgl_transaksi?>
+                  </div>
+                  <h3 class="timeline-header">Order Masuk</h3>
+                  <div class="timeline-body">
+                    Sistem kami telah menerima order komposmu
+                  </div>
                 </div>
               </div>
-              <br>
-                  </table>                <!-- /.col -->
+              <div>
+                <i class="fas fa-truck bg-green"></i>
+                <div class="timeline-item">
+                <div class="time">
+                    <?php echo $data2->tgl_transaksi?>
+                  </div>
+                  <h3 class="timeline-header">Order Terkonfirmasi</h3>
+                  <div class="timeline-body">
+                    Petugas sedang dalam perjalanan untuk mengirim kompos
+                  </div>
+                </div>
               </div>
+            <div>
+                <i class="fas fa-thumbs-up bg-green"></i>
+                <div class="timeline-item">
+                <div class="time">
+                    <?php echo $data2->tgl_transaksi?>
+                  </div>
+                    <h3 class="timeline-header">Order Selesai</h3>
+                    <div class="timeline-body">
+                        Komposmu telah berhasil dikirim oleh petugas kami
+                        <br>
+                        <a href="kwf.php?id_faktur=<?php echo $data2->id_faktur?>" class="btn btn-primary" role="button">Cetak Invoice</a>
+                    </div>
+                </div>
             </div>
-            <!-- /.invoice -->
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
+            <div><a href="ecommerce.php" class="btn btn-success" role="button">Selesai</a></div>
+
+    </div>
+</div>
+</div>
+</section>
+</div>
+
+
+<a href="orderlinejemput.html">
+    <div class="card-footer">
+      <button class="btn btn-primary">Detail</button>
+    </div>
+  </a>
   <footer class="main-footer">
     <strong>Copyright &copy; 2022 <a href="https://adminlte.io">E-waste</a>.</strong>
     All rights reserved.

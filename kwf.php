@@ -9,8 +9,8 @@
     $select = mysqli_query($kon, "SELECT * FROM tb_user WHERE username='$_SESSION[username]'") or die(mysqli_error($kon));
     $data = mysqli_fetch_assoc($select);
 
-    $id_antar = $_GET['id_antar'];
-    $select2 = mysqli_query($kon, "SELECT * FROM antar_jemput WHERE id_antar='$id_antar'") or die(mysqli_error($kon));
+    $id_faktur = $_GET['id_faktur'];
+    $select2 = mysqli_query($kon, "SELECT * FROM faktur_kompos WHERE id_faktur='$id_faktur'") or die(mysqli_error($kon));
     $data2 = mysqli_fetch_object($select2);
 ?>
 <!DOCTYPE html>
@@ -112,13 +112,13 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="antarjemput.php" class="nav-link active">
+            <a href="antarjemput.php" class="nav-link">
               <i class="nav-icon fas fa-truck fa-fw"></i>
               <p>Antar-Jemput</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="ecommerce.php" class="nav-link">
+            <a href="ecommerce.php" class="nav-link active">
               <i class="nav-icon fas fa-recycle fa-fw"></i>
               <p>E-Commerce</p>
             </a>
@@ -205,7 +205,7 @@
                 <!-- /.col -->
                 <div class="col-sm-4 invoice-col">
                   <br>
-                  <b>Order ID:</b> <?php echo $data2->id_antar; ?><br>
+                  <b>Order ID:</b> <?php echo $data2->id_faktur; ?><br>
                 </div>
                 <!-- /.col -->
               </div>
@@ -218,16 +218,18 @@
                     <thead>
                     <tr>
                      <th>NO</th>
-                     <th>Jenis Sampah</th>
-                     <th>Wilayah</th>
-                     <th>Total_Bayar</th>
+                     <th>Nama Kompos</th>
+                     <th>Qty</th>
+                     <th>Harga</th>
+                     <th>Total Bayar</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                       <td>1</td>
-                      <td><?php echo $data2->jenis_sampah; ?></td>
-                      <td><?php echo $data2->wilayah; ?></td>
+                      <td><?php echo $data2->nama_kompos;?></td>
+                      <td><?php echo $data2->qty; ?></td>
+                      <td><?php echo $data2->harga; ?></td>
                       <td><?php echo $data2->total_bayar; ?></td>
                     </tr>
                     </tbody>
@@ -251,8 +253,8 @@
               <br>
               <div class="row no-print">
                 <div class="col-12">
-                  <a href="ipa.php?id_antar=<?php echo $data2->id_antar?>" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-                  <a href="gantiwarnajemput.php?id_antar=<?php echo $data2->id_antar?>" type="button" class="btn btn-success float-right"><i class="far fa-credit-"></i>
+                  <a href="ipf.php?id_faktur=<?php echo $data2->id_faktur?>" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
+                  <a href="gantiwarnakompos.php?id_faktur=<?php echo $data2->id_faktur?>" type="button" class="btn btn-success float-right"><i class="far fa-credit-"></i>
                   Kembali
                   </a>
                 </div>

@@ -1,27 +1,21 @@
 <?php
-    session_start();
-    if (!isset($_SESSION["username"])) 
-    {
-      echo "Anda harus login dulu <br><a href='login.php'>Klik disini</a>";
-      exit;
-    }
-    include "koneksi.php";
-    $select = mysqli_query($kon, "SELECT * FROM tb_user WHERE username='$_SESSION[username]'") or die(mysqli_error($kon));
-    $data = mysqli_fetch_assoc($select);
-
-    $id_antar = $_GET['id_antar'];
-    $select2 = mysqli_query($kon, "SELECT * FROM antar_jemput WHERE id_antar='$id_antar'") or die(mysqli_error($kon));
-    $data2 = mysqli_fetch_object($select2);
+session_start();
+if (!isset($_SESSION["username"])) 
+{
+  echo "Anda harus login dulu <br><a href='login.php'>Klik disini</a>";
+  exit;
+}
+$username=$_SESSION["username"];
+include "koneksi.php";
+$select = mysqli_query($kon, "SELECT * FROM tb_user WHERE username='$_SESSION[username]'") or die(mysqli_error($kon));
+$data = mysqli_fetch_assoc($select);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>E-waste | Antar-Jemput</title>
+  <title>E-waste | Home Page</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -66,7 +60,7 @@
           </li>
           <li class="nav-item float-sm-right">
           <div class="image">
-            <img src="dist/img/a.jpeg" class="img-circle elevation-2" alt="e-waste" width="35">
+            <img src="dist/img/g.png" class="img-circle elevation-2" alt="e-waste" width="35">
           </div>
           </li>
         </ul>  
@@ -138,145 +132,130 @@
         </ul>
       </nav>
     </div>
+
     <tr>
       <td>
-      <center><a href="../logout.php" type="button" class="btn btn-rounded btn-danger">Logout</a></center>
+          <center><a href="../logout.php" type="button" class="btn btn-rounded btn-danger">Logout</a></center>
       </td>
     </tr>
+
   </aside>
-
+  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <div class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Invoice</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Invoice</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
-
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-
-            <!-- Main content -->
-            <div class="invoice p-3 mb-3">
-              <!-- title row -->
-              <div class="row">
-                <div class="col-12">
-                  <h4>
-            <p>
-                  <img src="dist/img/g.png" class="img-circle elevation-2" alt="e-waste" width="35"> E-Waste.
-                    <small class="float-right">Date: <?php echo $data2->tgl_transaksi; ?></small>
-                  </h4>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- info row -->
-              <div class="row invoice-info">
-                <div class="col-sm-4 invoice-col">
-                  From
-                  <address>
-                    <strong>Admin, E-Waste.</strong><br>
-                    Pasar Induk Gede Bage<br>
-                    Jl. Soekarno Hatta, Bandung.<br>
-                    Phone: (+62) 89671990056<br>
-                    Email: electronicwaste2022@gmail.com
-                  </address>
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4 invoice-col">
-                  To
-                  <address>
-                    <strong><?php echo $data2->nama; ?></strong><br>
-                    <?php echo $data2->alamat; ?><br>
-                    P.Gede Bage Bandung, Jawa Barat<br>
-                  </address>
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4 invoice-col">
-                  <br>
-                  <b>Order ID:</b> <?php echo $data2->id_antar; ?><br>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-
-              <!-- Table row -->
-              <div class="row">
-                <div class="col-12 table-responsive">
-                  <table class="table table-striped">
-                    <thead>
-                    <tr>
-                     <th>NO</th>
-                     <th>Jenis Sampah</th>
-                     <th>Wilayah</th>
-                     <th>Total_Bayar</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td><?php echo $data2->jenis_sampah; ?></td>
-                      <td><?php echo $data2->wilayah; ?></td>
-                      <td><?php echo $data2->total_bayar; ?></td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-              <div class="row">
-                <!-- /.col -->
-                <div class="col-6">
-                  <p class="lead justify-content-around">Terimakasih telah bergabung bersama kami!</p>
-                  <h5 class="justify-content-right">Accounting Pasar</h5>
-                <br><br><br>
-                <h>(Amira)</h>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-              <!-- this row will not appear when printing -->
-              <br>
-              <div class="row no-print">
-                <div class="col-12">
-                  <a href="ipa.php?id_antar=<?php echo $data2->id_antar?>" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-                  <a href="gantiwarnajemput.php?id_antar=<?php echo $data2->id_antar?>" type="button" class="btn btn-success float-right"><i class="far fa-credit-"></i>
-                  Kembali
-                  </a>
-                </div>
-              </div>
-              <br>
-                  </table>                <!-- /.col -->
-              </div>
-            </div>
-            <!-- /.invoice -->
+        <div class="row mb-3">
+          <div class="col-sm-5">
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
-  <footer class="main-footer">
-    <strong>Copyright &copy; 2022 <a href="https://adminlte.io">E-waste</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
     </div>
+    <!-- /.content-header -->
+  
+    <!-- /.content -->
+      <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col">
+            <div class="card">
+          <!-- /.card-header -->
+              <div class="card-body">
+              <div class="tab-content">
+                  <div class="active tab-pane">
+                  <table id="example1" class="table table-bordered table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th> No</th>
+            <th> NAMA</th>
+            <th> ALAMAT</th>
+            <th> TGL_TRANSAKSI</th>
+            <th> TOTAL_BAYAR</th>
+            <th>PESANAN</th>
+            <th>AKSI</th> 
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+       //query ke database SELECT tabel tb_member urut berdasarkan id yang paling besar
+        $sql = mysqli_query($kon, "SELECT * FROM antar_jemput a left join  tb user u
+         Where u.username='$_SESSION[username]' AND a.pesanan='delay' AND a.id_user = u.id_user ") 
+         or die(mysqli_error($kon));
+        
+        
+        //jika query diatas menghasilkan nilai > 0 maka menjalankan script di bawah if...
+        if(mysqli_num_rows($sql) > 0)
+        {
+          //membuat variabel $no untuk menyimpan nomor urut
+          $no = 1;
+          
+          //melakukan perulangan while dengan dari query $sql
+          while($data = mysqli_fetch_assoc($sql))
+          {
+            //menampilkan data perulangan
+            echo '
+            <tr>
+              <td>'.$no.'</td>
+              <td>'.$data['nama'].'</td>
+              <td>'.$data['alamat'].'</td>
+              <td>'.$data['tgl_transaksi'].'</td>
+              <td>'.$data['total_bayar'].'</td>
+              <td>'.$data['pesanan'].'</td>
+              <td>
+                <a href="orderlinejemput.php?id_antar='.$data['id_antar'].'" class="badge badge-warning">lihat</a>
+              </td>
+            </tr>
+            ';
+            $no++;
+          }
+          //jika query menghasilkan nilai 0
+        }
+        else
+        {
+          echo '
+          <tr>
+            <td colspan="6">Tidak ada data.</td>
+          </tr>
+          ';
+        }
+        ?>
+         </tr>
+                </table>
+                  </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+   
+     </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <center>
+    <strong>Copyright &copy; 2022 <a href="https://adminlte.io">E_WASTE</a>.</strong>
+    All rights reserved.<b>Version</b> 1.0
+    </center>
   </footer>
+
+
+  <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
   </aside>
+  <!-- /.control-sidebar -->
+</div> 
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
 
@@ -314,5 +293,45 @@
 <script src="dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="plugins/jszip/jszip.min.js"></script>
+<script src="plugins/pdfmake/pdfmake.min.js"></script>
+<script src="plugins/pdfmake/vfs_fonts.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="dist/js/demo.js"></script>
+<!-- Page specific script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "l
+      engthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
 </body>
 </html>
